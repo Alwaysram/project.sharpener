@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form onsubmit="saveToLocalStorage(event)">
+      <label>ChooseExpenseAmount:</label>
+      <input type="number" name="amount" required/>
+      <label>Choose description:</label>
+      <input type="text" name="destription" required/>
+      <p>Choose a category:</p>
+      <div class="select">
+        <select name="format" id="format">
+            <option value="fuel">fuel</option>
+            <option value="food">food</option>
+            <option value="electricity">electricity</option>
+            <option value="Movies">Movies</option>
+            <option value="parking">parking</option>
+            <option value="Billing">Billing</option>
+            </select>
+      <button>Add Expense</button>
+    </form>
+    <ul id="listOfItems"></ul>
+    <script>
+      function saveToLocalStorage(event) {
+        event.preventDefault();
+        const Amount = event.target.amount.value;
+        const  Destription= event.target.destription.value;
+        const Format=event.target.format.value;
+
+        
+        const obj = {
+          Amount,
+          Destription,
+          Format,
+          
+        };
+        localStorage.setItem(obj.Amount, JSON.stringify(obj));
+        showUserOnScreen(obj);
+      }
+  
+      function showUserOnScreen(obj) {
+        const parentElem = document.getElementById('listOfItems');
+        const childElem = document.createElement('li');
+        childElem.textContent = `${obj.Amount} - ${obj.Destription} - ${obj.Format}`;
+
+        const deleteButton = document.createElement('input')
+        deleteButton.type = "button"
+        deleteButton.value="Delete Expense"
+        deleteButton.onclick = () => {
+            localStorage.removeItem(obj.Destription)
+            parentElem.removeChild(childElem)
+
+        }
+        const editButton = document.createElement('input')
+        editButton.type = "button"
+        editButton.value="Edit Expense"
+        editButton.onclick = () => {
+            localStorage.removeItem(obj.Destription)
+            parentElem.removeChild(childElem)
+
+            
+        }
+        childElem.appendChild(deleteButton)
+        childElem.appendChild(editButton)
+        parentElem.appendChild(childElem);
+      }
+    </script>
+  </body>
+  
+            
+        
+
+
+    </script>
+    
+    
+</body>
+</html>
